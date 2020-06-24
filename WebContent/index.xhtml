@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<title>Manejo JSF</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"/>
+</h:head>
+<h:body>
+	<ui:composition template="plantilla.xhtml">
+		<ui:define name="content">
+			<h:form id="form">
+				<table>
+					<tr>
+						<td><h:outputLabel for="nombre"
+								value="#{datos['form.nombre']}: "></h:outputLabel></td>
+						<td><h:inputText id="nombre" required="true" name="nombre"
+								value="#{persona.nombre}"></h:inputText></td>
+						<td><h:message for="nombre"></h:message></td>
+					</tr>
+					<tr>
+						<td><h:outputLabel for="apellido"
+								value="#{datos['form.apellido']}: "></h:outputLabel></td>
+						<td><h:inputText id="apellido" required="true"
+								name="apellido" value="#{persona.apellido}"></h:inputText></td>
+						<td><h:message for="apellido"></h:message></td>
+					</tr>
+					<tr>
+						<td><h:outputLabel for="rut" value="#{datos['form.rut']}: "></h:outputLabel></td>
+						<td><h:inputText id="rut" required="true" name="rut"
+								value="#{persona.rut}">
+								<f:validateLongRange minimum="10" maximum="1000"></f:validateLongRange>
+							</h:inputText></td>
+						<td><h:message for="rut"></h:message></td>
+					</tr>
+					<tr>
+						<td><h:outputLabel for="fecha"
+								value="#{datos['form.fecha']}: "></h:outputLabel></td>
+						<td><h:inputText id="fecha" required="true" name="fecha"
+								value="#{persona.fecha}">
+								<f:convertDateTime pattern="dd/mm/yyyy"></f:convertDateTime>
+							</h:inputText></td>
+						<td><h:message for="fecha"></h:message></td>
+					</tr>
+					<tr>
+						<td><h:outputLabel for="codigoPostal"
+								value="#{datos['form.postalCode']}: "></h:outputLabel></td>
+						<td><h:inputText id="codigoPostal" immediate="true"
+								onchange="this.form.submit()" required="true"
+								name="codigoPostal" value="#{persona.codigoPostal}"
+								valueChangeListener="#{vacante.codigoPostalListener}"></h:inputText></td>
+						<td><h:message for="codigoPostal"></h:message></td>
+					</tr>
+					<tr>
+						<td><h:outputLabel for="colonia"
+								value="#{datos['form.colonia']}: "></h:outputLabel></td>
+						<td><h:inputText id="colonia" required="true"
+								value="#{persona.colonia}"></h:inputText></td>
+						<td><h:message for="colonia"></h:message></td>
+					</tr>
+					<tr>
+						<td><h:outputLabel for="ciudad"
+								value="#{datos['form.ciudad']}: "></h:outputLabel></td>
+						<td><h:inputText id="ciudad" required="true"
+								value="#{persona.ciudad}"></h:inputText></td>
+						<td><h:message for="ciudad"></h:message></td>
+					</tr>
+					<tr>
+						<td><h:outputLabel for="tecnologia" value="Tecnologia: "></h:outputLabel></td>
+						<td><h:selectOneMenu id="tecnologia" required="true"
+								value="#{persona.tecnologia}">
+								<f:selectItem itemLabel="--Seleccione--" itemValue=""></f:selectItem>
+								<!--  La primera opcion es la opcion por default que se muestra -->
+								<f:selectItem itemLabel="Java" itemValue="Java"></f:selectItem>
+								<f:selectItem itemLabel="Node" itemValue="Node"></f:selectItem>
+								<f:selectItem itemLabel="Python" itemValue="Python"></f:selectItem>
+							</h:selectOneMenu></td>
+						<td><h:message for="tecnologia"></h:message></td>
+					</tr>
+				</table>
+				<table>
+					<tr>
+						<td><h:commandLink
+								actionListener="#{vacante.ocultarComentario}" immediate="true"
+								rendered="#{!vacante.comentarioEnviado}" value="Mostrar"></h:commandLink>
+							<h:commandLink actionListener="#{vacante.ocultarComentario}"
+								immediate="true" rendered="#{vacante.comentarioEnviado}"
+								value="Ocultar"></h:commandLink></td>
+					</tr>
+				</table>
+				<h:panelGroup rendered="#{vacante.comentarioEnviado}">
+					<table>
+						<tr>
+							<td><h:outputLabel for="comentario" value="Comentario: "></h:outputLabel></td>
+							<td><h:inputTextarea id="comentario" cols="50" rows="10"
+									value="#{persona.comentario}"></h:inputTextarea></td>
+						</tr>
+					</table>
+				</h:panelGroup>
+				<h:commandButton id="submit" value="#{datos['form.submit']}"
+					action="#{vacante.enviar}"></h:commandButton>
+			</h:form>
+			<h:messages globalOnly="true"></h:messages>
+		</ui:define>
+	</ui:composition>
+	
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</h:body>
+</html>
